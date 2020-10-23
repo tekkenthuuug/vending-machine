@@ -1,0 +1,58 @@
+body,
+html {
+  height: 100%;
+  width: 100%;
+  background-image: linear-gradient(45deg, #01094d, #004e92);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  outline: none;
+  border: none;
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.5;
+  }
+}
+
+.tc {
+  text-align: center;
+}
+
+.h100 {
+  height: 100%;
+}
+
+.w100 {
+  width: 100%;
+}
+
+.cyan-glow-onhover:hover {
+  background-color: rgba(cyan, 0.2);
+  box-shadow: 0 0 18px rgba(cyan, 0.1);
+}
+
+.cyan-glow {
+  background-color: rgba(cyan, 0.2);
+  box-shadow: 0 0 18px rgba(cyan, 0.1);
+}
+
+.red {
+  color: rgb(230, 70, 70);
+}
+
+.green {
+  color: rgb(0, 200, 20);
+}
+
+.error {
+  color: rgb(255, 40, 40);
+  font-weight: 700;
+  height: 16px;
+}
