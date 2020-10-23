@@ -17,6 +17,7 @@ const getInitialState = () => {
     currency: currenciesList[0],
     totalInput: 0,
     coins: getRandomizedCoinsState(),
+    contactless: false,
   };
 };
 
@@ -32,6 +33,10 @@ export default new Vuex.Store({
     },
     reset(state) {
       Object.assign(state, getInitialState());
+    },
+    contactlessPayment(state) {
+      state.totalInput += 5;
+      state.contactless = true;
     },
     insertCoin(state, value) {
       state.totalInput += value;

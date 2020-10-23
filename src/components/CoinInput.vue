@@ -15,7 +15,7 @@
       class="keypad-button cyan-glow-onhover keypad-reset"
       @click="resetTotal"
     >
-      Reset
+      Withdraw
     </button>
     <div class="keypad-total tc">
       Total: {{ selectTotal }} {{ selectCurrency.name }}

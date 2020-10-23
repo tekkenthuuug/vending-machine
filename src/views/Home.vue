@@ -1,7 +1,7 @@
 <template>
   <div class="home tc">
     <div>
-      <h1>Welcome to VQuick</h1>
+      <h1>Be quick. VQuick. Vending machines.</h1>
       <div>
         <p>Choose your currency to begin</p>
         <CurrencySelector />
@@ -33,7 +33,9 @@ export default {
   },
   methods: {
     redirectToApp: function() {
-      this.$router.push('/main');
+      if (this.$store.state.currency) {
+        this.$router.push('/main');
+      }
     },
   },
 };

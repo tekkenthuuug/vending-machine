@@ -10,7 +10,7 @@
     <button
       class="randomize-button"
       @click="randomizeCoins"
-      :disabled="selectTotal >= 5"
+      :disabled="!!selectTotal"
     >
       Randomize coins
     </button>
@@ -42,7 +42,7 @@ export default {
 <style lang="scss" scoped>
 .randomize-button {
   background-color: rgba(0, 0, 0, 0.2);
-  font-size: 18px;
+  font-size: 17px;
   color: white;
   border-radius: 4px;
   padding: 8px;
