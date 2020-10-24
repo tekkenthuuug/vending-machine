@@ -12,7 +12,10 @@
         <CoinsCount />
         <ContactlessPayment />
       </div>
-      <ProductSelector />
+      <div>
+        <ProductSelector />
+        <ConfirmPurchase v-if="selectSelectedProduct" />
+      </div>
       <CoinInput />
     </div>
   </div>
@@ -24,6 +27,7 @@ import CoinInput from '@/components/CoinInput';
 import CoinsCount from '@/components/CoinsCount';
 import ContactlessPayment from '@/components/ContactlessPayment';
 import ProductSelector from '@/components/ProductSelector';
+import ConfirmPurchase from '@/components/ConfirmPurchase';
 import { mapState } from 'vuex';
 
 export default {
@@ -34,10 +38,12 @@ export default {
     CoinsCount,
     ContactlessPayment,
     ProductSelector,
+    ConfirmPurchase,
   },
   computed: {
     ...mapState({
       selectTotal: 'totalInput',
+      selectSelectedProduct: 'selectedProduct',
     }),
   },
   methods: {
