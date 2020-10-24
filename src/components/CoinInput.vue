@@ -15,7 +15,7 @@
       class="keypad-button cyan-glow-onhover keypad-reset"
       @click="resetTotal"
     >
-      Withdraw
+      Cancel
     </button>
     <div class="keypad-total tc">
       Total: {{ selectTotal }} {{ selectCurrency.name }}
@@ -54,7 +54,6 @@ export default {
 <style style="scss">
 .coin-input {
   width: 156px;
-  margin-right: 56px;
 }
 
 .nominals-grid {
@@ -66,7 +65,6 @@ export default {
 
 .keypad-button {
   background-color: rgba(0, 0, 0, 0.2);
-  width: 74px;
   height: 74px;
   font-size: 22px;
   color: white;

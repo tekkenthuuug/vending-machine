@@ -13,9 +13,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import url('../_shared-styles.scss');
-
 .signature {
   opacity: 0.5;
+  text-align: right;
 }
 </style>
