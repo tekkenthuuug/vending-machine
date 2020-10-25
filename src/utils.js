@@ -5,12 +5,12 @@ export const randomInt = (min, max) => {
   return Math.round(min + Math.random() * (max - min));
 };
 
-export const findChange = (coinsState, totalInput, product) => {
+export const findChange = (coinsState, neededChange) => {
   // sorted entires by nominal DESC
   const coinsEntries = Object.entries(coinsState).sort((a, b) =>
     a < b ? 1 : -1
   );
-  let left = totalInput - product.price;
+  let left = neededChange;
   const change = {};
 
   for (let i = 0; i < coinsEntries.length; i++) {
@@ -29,7 +29,7 @@ export const findChange = (coinsState, totalInput, product) => {
   }
 
   if (left > 0) {
-    throw null;
+    return null;
   }
 
   return change;

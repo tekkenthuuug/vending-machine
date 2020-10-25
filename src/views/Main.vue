@@ -1,7 +1,7 @@
 <template>
   <div class="main">
-    <GivenChangeModal
-      v-if="givenChange"
+    <PurchaseSummary
+      v-if="showFinalModal"
       :change="givenChange"
       @close="handleReset"
     />
@@ -36,7 +36,7 @@ import CoinsCount from '@/components/CoinsCount';
 import ContactlessPayment from '@/components/ContactlessPayment';
 import ProductSelector from '@/components/ProductSelector';
 import ConfirmPurchase from '@/components/ConfirmPurchase';
-import GivenChangeModal from '@/components/GivenChangeModal';
+import PurchaseSummary from '@/components/PurchaseSummary';
 import { mapState } from 'vuex';
 import { findChange } from '@/utils';
 
@@ -49,11 +49,12 @@ export default {
     ContactlessPayment,
     ProductSelector,
     ConfirmPurchase,
-    GivenChangeModal,
+    PurchaseSummary,
   },
   data: function() {
     return {
       givenChange: null,
+      showFinalModal: false,
     };
   },
   computed: {
@@ -62,24 +63,30 @@ export default {
       selectSelectedProduct: 'selectedProduct',
     }),
   },
+  mounted: function() {
+    this.$store.commit('startSession');
+  },
   methods: {
     goBack() {
       this.$router.push('/');
     },
     handleConfirmPurchase() {
-      const change = findChange(
-        this.$store.state.coins,
-        this.$store.state.totalInput,
-        this.$store.state.selectedProduct
-      );
+      if (this.$store.state.giveChange) {
+        const change = findChange(
+          this.$store.state.coins,
+          this.$store.state.totalInput - this.$store.state.selectedProduct.price
+        );
+        this.givenChange = change;
 
-      this.givenChange = change;
+        this.$store.commit('removeCoins', change);
+      }
 
-      this.$store.commit('takeChangeFromCoins', change);
+      this.showFinalModal = true;
     },
     handleReset() {
       // reset to initial app state
       this.givenChange = null;
+      this.showFinalModal = false;
       this.$store.commit('reset');
       this.$router.push('/');
     },

@@ -2,20 +2,28 @@
   <div class="change-drawer">
     <div class="change-modal">
       <span class="control" @click="emitClose">×</span>
-      <h2>Here is your change</h2>
-      <div class="total-change">
-        Total: {{ changeTotal() }} {{ selectCurrency.name }}
+      <h1>Thank you for the purchase!</h1>
+      <h3>Go ahead an take your product</h3>
+      <div v-if="change && getChangeTotal()">
+        <div class="total-change tc">
+          Total change: {{ getChangeTotal() }} {{ selectCurrency.name }}
+        </div>
+        <table class="change-table tc">
+          <tr>
+            <th>Nominal</th>
+            <th>Number of coins</th>
+          </tr>
+          <tr v-for="(numberOfCoins, nominal) in change" :key="nominal">
+            <td>{{ nominal }} {{ selectCurrency.name }}</td>
+            <td>{{ numberOfCoins }}</td>
+          </tr>
+        </table>
       </div>
-      <table class="change-table tc">
-        <tr>
-          <th>Nominal</th>
-          <th>Number of coins</th>
-        </tr>
-        <tr v-for="(numberOfCoins, nominal) in change" :key="nominal">
-          <td>{{ nominal }} {{ selectCurrency.name }}</td>
-          <td>{{ numberOfCoins }}</td>
-        </tr>
-      </table>
+
+      <h4 class="timestamp">
+        It took <span>{{ computeTimeTaken() }}s </span> for you to complete your
+        purchase
+      </h4>
     </div>
   </div>
 </template>
@@ -25,11 +33,10 @@ import { sumCoins } from '@/utils';
 import { mapState } from 'vuex';
 
 export default {
-  name: 'GivenChangeModal',
+  name: 'PurchaseSummary',
   props: {
     change: {
       type: Object,
-      required: true,
     },
   },
   computed: {
@@ -41,8 +48,14 @@ export default {
     emitClose() {
       this.$emit('close');
     },
-    changeTotal() {
+    getChangeTotal() {
       return sumCoins(this.change);
+    },
+    computeTimeTaken() {
+      const startTime = this.$store.state.sessionStartTime;
+      const timestampDif = new Date().getTime() - startTime.getTime();
+
+      return (timestampDif / 1000).toFixed(1);
     },
   },
 };
@@ -79,7 +92,7 @@ export default {
 }
 
 .change-table {
-  margin: 12px auto 0 auto;
+  margin: 8px auto 0 auto;
   border: 1px solid white;
   border-collapse: collapse;
 
@@ -91,7 +104,15 @@ export default {
 }
 
 .total-change {
-  margin-top: 8px;
+  margin-top: 32px;
   font-size: 16px;
+}
+
+.timestamp {
+  margin-top: 24px;
+  & > span {
+    color: lightgreen;
+    text-decoration: underline;
+  }
 }
 </style>

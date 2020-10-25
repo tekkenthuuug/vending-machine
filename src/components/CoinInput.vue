@@ -13,7 +13,7 @@
     </div>
     <button
       class="keypad-button cyan-glow-onhover keypad-reset"
-      @click="resetTotal"
+      @click="cancel"
     >
       Cancel
     </button>
@@ -26,6 +26,7 @@
 <script>
 import { mapState } from 'vuex';
 import { allowedNominals } from '@/constants';
+import { findChange } from '@/utils';
 
 export default {
   name: 'CoinInput',
@@ -38,7 +39,14 @@ export default {
     insertCoin(nominal) {
       this.$store.commit('insertCoin', nominal);
     },
-    resetTotal() {
+    cancel() {
+      if (this.$store.state.giveChange) {
+        const change = findChange(
+          this.$store.state.coins,
+          this.$store.state.totalInput
+        );
+        this.$store.commit('removeCoins', change);
+      }
       this.$store.commit('resetTotal');
     },
   },

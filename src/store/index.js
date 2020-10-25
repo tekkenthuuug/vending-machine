@@ -21,9 +21,10 @@ const getInitialState = () => {
     currency: currenciesList[1],
     totalInput: 0,
     coins: getRandomizedCoinsState(),
-    contactless: false,
+    giveChange: true,
     availableProducts: availableProducts,
     selectedProduct: null,
+    sessionStartTime: null,
   };
 };
 
@@ -41,8 +42,8 @@ export default new Vuex.Store({
       Object.assign(state, getInitialState());
     },
     contactlessPayment(state) {
-      state.totalInput += 5;
-      state.contactless = true;
+      state.totalInput = 5;
+      state.giveChange = false;
     },
     insertCoin(state, value) {
       // using toFixed() method to avoid cases such as
@@ -60,11 +61,11 @@ export default new Vuex.Store({
     selectProduct(state, product) {
       state.selectedProduct = product;
     },
-    takeChangeFromCoins(state, change) {
+    removeCoins(state, coinsToRemove) {
       state.coins = Object.entries(state.coins).reduce(
         (acc, [nominal, numberOfCoins]) => {
-          if (change[nominal]) {
-            acc[nominal] = numberOfCoins - change[nominal];
+          if (coinsToRemove[nominal]) {
+            acc[nominal] = numberOfCoins - coinsToRemove[nominal];
           } else {
             acc[nominal] = numberOfCoins;
           }
@@ -73,6 +74,9 @@ export default new Vuex.Store({
         },
         {}
       );
+    },
+    startSession(state) {
+      state.sessionStartTime = new Date();
     },
   },
   actions: {},
