@@ -10,18 +10,18 @@
         </div>
         <table class="change-table tc">
           <tr>
-            <th>Nominal</th>
+            <th>Face value</th>
             <th>Number of coins</th>
           </tr>
-          <tr v-for="(numberOfCoins, nominal) in change" :key="nominal">
-            <td>{{ nominal }} {{ selectCurrency.name }}</td>
+          <tr v-for="(numberOfCoins, faceValue) in change" :key="faceValue">
+            <td>{{ faceValue }} {{ selectCurrency.name }}</td>
             <td>{{ numberOfCoins }}</td>
           </tr>
         </table>
       </div>
 
       <h4 class="timestamp">
-        It took <span>{{ computeTimeTaken() }}s </span> for you to complete your
+        It took <span>{{ computeTimeTaken() }}s </span> for you to complete this
         purchase
       </h4>
     </div>
@@ -33,7 +33,7 @@ import { sumCoins } from '@/utils';
 import { mapState } from 'vuex';
 
 export default {
-  name: 'PurchaseSummary',
+  name: 'PurchaseSummaryModal',
   props: {
     change: {
       type: Object,

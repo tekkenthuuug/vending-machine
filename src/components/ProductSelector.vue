@@ -14,6 +14,7 @@
         selectTotalInput <
           Number(product.price * selectCurrency.toUSD).toFixed(1)
       "
+      :noChange="!haveChangeForProduct(product)"
       :selected="
         selectSelectedProduct && selectSelectedProduct.id === product.id
       "
@@ -24,6 +25,7 @@
 
 <script>
 import ProductItem from '@/components/ProductItem';
+import { findChange } from '@/utils';
 import { mapState } from 'vuex';
 
 export default {
@@ -48,9 +50,33 @@ export default {
         )
       );
 
+      if (!this.haveChangeForProduct(product)) {
+        return;
+      }
+
       if (this.$store.state.totalInput >= productWithCurrency.price) {
         this.$store.commit('selectProduct', productWithCurrency);
       }
+    },
+    haveChangeForProduct(product) {
+      if (!this.$store.state.giveChange) {
+        return true;
+      }
+
+      const realPrice = Number(
+        (product.price * this.$store.state.currency.toUSD).toFixed(1)
+      );
+
+      if (this.$store.state.totalInput === realPrice) {
+        return true;
+      }
+
+      const change = findChange(
+        this.$store.state.coins,
+        this.$store.state.totalInput - realPrice
+      );
+
+      return change !== null;
     },
   },
 };

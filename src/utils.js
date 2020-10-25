@@ -6,7 +6,7 @@ export const randomInt = (min, max) => {
 };
 
 export const findChange = (coinsState, neededChange) => {
-  // sorted entires by nominal DESC
+  // sorted entires by face value DESC
   const coinsEntries = Object.entries(coinsState).sort((a, b) =>
     a < b ? 1 : -1
   );
@@ -14,17 +14,27 @@ export const findChange = (coinsState, neededChange) => {
   const change = {};
 
   for (let i = 0; i < coinsEntries.length; i++) {
-    const [currentNominal, currentNumberOfCoins] = coinsEntries[i];
-    if (currentNominal > left) {
-      // if current nominal is higher then needed
+    const [currentFaceValue, currentNumberOfCoins] = coinsEntries[i];
+    if (currentFaceValue > left || currentNumberOfCoins <= 0) {
+      // if current face value is higher then needed or no coins
       continue;
     } else {
-      const maxCoinsForNominal = Math.min(
-        Math.floor(left / currentNominal),
+      // number of coins needed for left to become 0
+      const neededCurrentFaceValue = Math.floor(
+        (left / currentFaceValue).toFixed(1)
+      );
+
+      // number of coins that is actually available
+      const numberOfAvailableCoins = Math.min(
+        neededCurrentFaceValue,
         currentNumberOfCoins
       );
-      change[currentNominal] = maxCoinsForNominal;
-      left = (left - currentNominal * maxCoinsForNominal).toFixed(1);
+
+      // add coins to change
+      change[currentFaceValue] = numberOfAvailableCoins;
+
+      // substract value added to change from left
+      left = (left - currentFaceValue * numberOfAvailableCoins).toFixed(1);
     }
   }
 

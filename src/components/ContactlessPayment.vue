@@ -42,10 +42,8 @@ export default {
   cursor: pointer;
   opacity: 0.9;
   fill: white;
-  &:hover {
-    fill: rgb(188, 182, 226);
-  }
 }
+
 .disabled-contactless {
   opacity: 0.5;
 }

@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import {
-  allowedNominals,
+  allowedFaceValues,
   currenciesList,
   availableProducts,
 } from '@/constants';
@@ -10,8 +10,8 @@ import { randomInt } from '@/utils.js';
 Vue.use(Vuex);
 
 const getRandomizedCoinsState = () => {
-  return allowedNominals.reduce((acc, nominal) => {
-    acc[nominal] = randomInt(1, 10);
+  return allowedFaceValues.reduce((acc, faceValue) => {
+    acc[faceValue] = randomInt(0, 8);
     return acc;
   }, {});
 };
@@ -39,7 +39,8 @@ export default new Vuex.Store({
       }
     },
     reset(state) {
-      Object.assign(state, getInitialState());
+      // reset all but save coins state
+      Object.assign(state, getInitialState(), { coins: state.coins });
     },
     contactlessPayment(state) {
       state.totalInput = 5;
@@ -63,11 +64,11 @@ export default new Vuex.Store({
     },
     removeCoins(state, coinsToRemove) {
       state.coins = Object.entries(state.coins).reduce(
-        (acc, [nominal, numberOfCoins]) => {
-          if (coinsToRemove[nominal]) {
-            acc[nominal] = numberOfCoins - coinsToRemove[nominal];
+        (acc, [faceValue, numberOfCoins]) => {
+          if (coinsToRemove[faceValue]) {
+            acc[faceValue] = numberOfCoins - coinsToRemove[faceValue];
           } else {
-            acc[nominal] = numberOfCoins;
+            acc[faceValue] = numberOfCoins;
           }
 
           return acc;

@@ -4,7 +4,7 @@ export const currenciesList = [
   { id: 2, name: 'EUR', toUSD: 1.18 },
 ];
 
-export const allowedNominals = [0.1, 0.2, 0.5, 1, 2, 5];
+export const allowedFaceValues = [0.1, 0.2, 0.5, 1, 2, 5];
 
 export const availableProducts = [
   {

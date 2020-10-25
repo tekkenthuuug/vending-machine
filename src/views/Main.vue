@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <PurchaseSummary
+    <PurchaseSummaryModal
       v-if="showFinalModal"
       :change="givenChange"
       @close="handleReset"
@@ -36,7 +36,7 @@ import CoinsCount from '@/components/CoinsCount';
 import ContactlessPayment from '@/components/ContactlessPayment';
 import ProductSelector from '@/components/ProductSelector';
 import ConfirmPurchase from '@/components/ConfirmPurchase';
-import PurchaseSummary from '@/components/PurchaseSummary';
+import PurchaseSummaryModal from '@/components/PurchaseSummaryModal';
 import { mapState } from 'vuex';
 import { findChange } from '@/utils';
 
@@ -49,7 +49,7 @@ export default {
     ContactlessPayment,
     ProductSelector,
     ConfirmPurchase,
-    PurchaseSummary,
+    PurchaseSummaryModal,
   },
   data: function() {
     return {

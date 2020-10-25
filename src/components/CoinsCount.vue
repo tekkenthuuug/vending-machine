@@ -2,10 +2,10 @@
   <div>
     <div
       class="coins-number"
-      v-for="[nominal, numberOfCoins] in selectCoinsTuples"
-      :key="nominal"
+      v-for="[faceValue, numberOfCoins] in selectCoinsTuples"
+      :key="faceValue"
     >
-      {{ nominal }} {{ selectCurrency.name }}: {{ numberOfCoins }} coins
+      {{ faceValue }} {{ selectCurrency.name }}: {{ numberOfCoins }} coins
     </div>
     <button
       class="randomize-button"

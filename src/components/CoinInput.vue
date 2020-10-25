@@ -1,14 +1,14 @@
 <template>
   <div class="coin-input">
-    <div class="nominals-grid">
+    <div class="face-values-grid">
       <button
-        v-for="nominal in allowedNominals"
-        :key="nominal"
+        v-for="faceValue in allowedFaceValues"
+        :key="faceValue"
         class="keypad-button cyan-glow-onhover"
-        @click="insertCoin(nominal)"
+        @click="insertCoin(faceValue)"
         :disabled="selectTotal >= 5"
       >
-        {{ nominal }}
+        {{ faceValue }}
       </button>
     </div>
     <button
@@ -25,19 +25,19 @@
 
 <script>
 import { mapState } from 'vuex';
-import { allowedNominals } from '@/constants';
+import { allowedFaceValues } from '@/constants';
 import { findChange } from '@/utils';
 
 export default {
   name: 'CoinInput',
   data: function() {
     return {
-      allowedNominals: allowedNominals,
+      allowedFaceValues: allowedFaceValues,
     };
   },
   methods: {
-    insertCoin(nominal) {
-      this.$store.commit('insertCoin', nominal);
+    insertCoin(faceValue) {
+      this.$store.commit('insertCoin', faceValue);
     },
     cancel() {
       if (this.$store.state.giveChange) {
@@ -64,7 +64,7 @@ export default {
   width: 156px;
 }
 
-.nominals-grid {
+.face-values-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   align-items: center;
