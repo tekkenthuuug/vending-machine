@@ -1,6 +1,6 @@
 <template>
-  <div class="confirm-purchase-container ">
-    <button class="cyan-glow">
+  <div class="confirm-purchase-container">
+    <button class="cyan-glow" @click="emitClick">
       Confirm purchase of {{ selectSelectedProduct.name }} for
       {{ selectSelectedProduct.price }} {{ selectCurrency.name }}
     </button>
@@ -16,6 +16,11 @@ export default {
       selectSelectedProduct: 'selectedProduct',
       selectCurrency: 'currency',
     }),
+  },
+  methods: {
+    emitClick() {
+      this.$emit('click');
+    },
   },
 };
 </script>

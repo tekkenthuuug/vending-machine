@@ -60,6 +60,20 @@ export default new Vuex.Store({
     selectProduct(state, product) {
       state.selectedProduct = product;
     },
+    takeChangeFromCoins(state, change) {
+      state.coins = Object.entries(state.coins).reduce(
+        (acc, [nominal, numberOfCoins]) => {
+          if (change[nominal]) {
+            acc[nominal] = numberOfCoins - change[nominal];
+          } else {
+            acc[nominal] = numberOfCoins;
+          }
+
+          return acc;
+        },
+        {}
+      );
+    },
   },
   actions: {},
   modules: {},

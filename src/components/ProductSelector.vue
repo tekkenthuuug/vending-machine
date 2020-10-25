@@ -41,8 +41,15 @@ export default {
   },
   methods: {
     selectProduct(product) {
-      if (this.$store.state.totalInput >= product.price) {
-        this.$store.commit('selectProduct', product);
+      const productWithCurrency = { ...product };
+      productWithCurrency.price = Number(
+        (productWithCurrency.price * this.$store.state.currency.toUSD).toFixed(
+          1
+        )
+      );
+
+      if (this.$store.state.totalInput >= productWithCurrency.price) {
+        this.$store.commit('selectProduct', productWithCurrency);
       }
     },
   },

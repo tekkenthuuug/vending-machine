@@ -1,5 +1,10 @@
 <template>
   <div class="main">
+    <GivenChangeModal
+      v-if="givenChange"
+      :change="givenChange"
+      @close="handleReset"
+    />
     <div class="fsp-row">
       <div>
         <h2 class="tc">VQuick</h2>
@@ -14,7 +19,10 @@
       </div>
       <div>
         <ProductSelector />
-        <ConfirmPurchase v-if="selectSelectedProduct" />
+        <ConfirmPurchase
+          v-if="selectSelectedProduct"
+          @click="handleConfirmPurchase"
+        />
       </div>
       <CoinInput />
     </div>
@@ -28,7 +36,9 @@ import CoinsCount from '@/components/CoinsCount';
 import ContactlessPayment from '@/components/ContactlessPayment';
 import ProductSelector from '@/components/ProductSelector';
 import ConfirmPurchase from '@/components/ConfirmPurchase';
+import GivenChangeModal from '@/components/GivenChangeModal';
 import { mapState } from 'vuex';
+import { findChange } from '@/utils';
 
 export default {
   name: 'Main',
@@ -39,6 +49,12 @@ export default {
     ContactlessPayment,
     ProductSelector,
     ConfirmPurchase,
+    GivenChangeModal,
+  },
+  data: function() {
+    return {
+      givenChange: null,
+    };
   },
   computed: {
     ...mapState({
@@ -48,6 +64,23 @@ export default {
   },
   methods: {
     goBack() {
+      this.$router.push('/');
+    },
+    handleConfirmPurchase() {
+      const change = findChange(
+        this.$store.state.coins,
+        this.$store.state.totalInput,
+        this.$store.state.selectedProduct
+      );
+
+      this.givenChange = change;
+
+      this.$store.commit('takeChangeFromCoins', change);
+    },
+    handleReset() {
+      // reset to initial app state
+      this.givenChange = null;
+      this.$store.commit('reset');
       this.$router.push('/');
     },
   },
