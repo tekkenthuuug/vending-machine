@@ -40,11 +40,10 @@ export default {
       this.$store.commit('insertCoin', faceValue);
     },
     cancel() {
-      if (this.$store.state.giveChange) {
-        const change = findChange(
-          this.$store.state.coins,
-          this.$store.state.totalInput
-        );
+      const { giveChange, coins, totalInput } = this.$store.state;
+
+      if (giveChange) {
+        const change = findChange(coins, totalInput);
         this.$store.commit('removeCoins', change);
       }
       this.$store.commit('resetTotal');

@@ -43,38 +43,35 @@ export default {
   },
   methods: {
     selectProduct(product) {
+      const { currency, totalInput } = this.$store.state;
+
       const productWithCurrency = { ...product };
       productWithCurrency.price = Number(
-        (productWithCurrency.price * this.$store.state.currency.toUSD).toFixed(
-          1
-        )
+        (productWithCurrency.price * currency.toUSD).toFixed(1)
       );
 
       if (!this.haveChangeForProduct(product)) {
         return;
       }
 
-      if (this.$store.state.totalInput >= productWithCurrency.price) {
+      if (totalInput >= productWithCurrency.price) {
         this.$store.commit('selectProduct', productWithCurrency);
       }
     },
     haveChangeForProduct(product) {
-      if (!this.$store.state.giveChange) {
+      const { giveChange, currency, totalInput, coins } = this.$store.state;
+
+      if (!giveChange) {
         return true;
       }
 
-      const realPrice = Number(
-        (product.price * this.$store.state.currency.toUSD).toFixed(1)
-      );
+      const realPrice = Number((product.price * currency.toUSD).toFixed(1));
 
-      if (this.$store.state.totalInput === realPrice) {
+      if (totalInput === realPrice) {
         return true;
       }
 
-      const change = findChange(
-        this.$store.state.coins,
-        this.$store.state.totalInput - realPrice
-      );
+      const change = findChange(coins, totalInput - realPrice);
 
       return change !== null;
     },

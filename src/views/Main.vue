@@ -71,11 +71,15 @@ export default {
       this.$router.push('/');
     },
     handleConfirmPurchase() {
-      if (this.$store.state.giveChange) {
-        const change = findChange(
-          this.$store.state.coins,
-          this.$store.state.totalInput - this.$store.state.selectedProduct.price
-        );
+      const {
+        giveChange,
+        coins,
+        totalInput,
+        selectedProduct,
+      } = this.$store.state;
+
+      if (giveChange) {
+        const change = findChange(coins, totalInput - selectedProduct.price);
         this.givenChange = change;
 
         this.$store.commit('removeCoins', change);
