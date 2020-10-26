@@ -31,6 +31,7 @@
 <script>
 import { sumCoins } from '@/utils';
 import { mapState } from 'vuex';
+import { toSafeFloat } from '@/utils';
 
 export default {
   name: 'PurchaseSummaryModal',
@@ -55,7 +56,7 @@ export default {
       const startTime = this.$store.state.sessionStartTime;
       const timestampDif = new Date().getTime() - startTime.getTime();
 
-      return (timestampDif / 1000).toFixed(1);
+      return toSafeFloat(timestampDif / 1000);
     },
   },
 };

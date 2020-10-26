@@ -6,13 +6,12 @@
       :imageName="product.imageName"
       :name="product.name"
       :price="
-        `${Number(product.price * selectCurrency.toUSD).toFixed(1)} ${
+        `${toSafeFloat(product.price * selectCurrency.toUSD)} ${
           selectCurrency.name
         }`
       "
       :disabled="
-        selectTotalInput <
-          Number(product.price * selectCurrency.toUSD).toFixed(1)
+        selectTotalInput < toSafeFloat(product.price * selectCurrency.toUSD)
       "
       :noChange="!haveChangeForProduct(product)"
       :selected="
@@ -27,6 +26,7 @@
 import ProductItem from '@/components/ProductItem';
 import { findChange } from '@/utils';
 import { mapState } from 'vuex';
+import { toSafeFloat } from '@/utils';
 
 export default {
   name: 'ProductSelector',
@@ -42,12 +42,13 @@ export default {
     }),
   },
   methods: {
+    toSafeFloat,
     selectProduct(product) {
       const { currency, totalInput } = this.$store.state;
 
       const productWithCurrency = { ...product };
-      productWithCurrency.price = Number(
-        (productWithCurrency.price * currency.toUSD).toFixed(1)
+      productWithCurrency.price = toSafeFloat(
+        productWithCurrency.price * currency.toUSD
       );
 
       if (!this.haveChangeForProduct(product)) {
@@ -65,7 +66,7 @@ export default {
         return true;
       }
 
-      const realPrice = Number((product.price * currency.toUSD).toFixed(1));
+      const realPrice = toSafeFloat(product.price * currency.toUSD);
 
       if (totalInput === realPrice) {
         return true;

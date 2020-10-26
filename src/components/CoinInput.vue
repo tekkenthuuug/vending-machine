@@ -32,7 +32,7 @@ export default {
   name: 'CoinInput',
   data: function() {
     return {
-      allowedFaceValues: allowedFaceValues,
+      allowedFaceValues,
     };
   },
   methods: {

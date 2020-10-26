@@ -5,7 +5,7 @@ import {
   currenciesList,
   availableProducts,
 } from '@/constants';
-import { randomInt } from '@/utils.js';
+import { randomInt, toSafeFloat } from '@/utils.js';
 
 Vue.use(Vuex);
 
@@ -49,7 +49,7 @@ export default new Vuex.Store({
     insertCoin(state, value) {
       // using toFixed() method to avoid cases such as
       // 0.1 + 0.2 = 3.00...004 and so on
-      state.totalInput = (Number(state.totalInput) + Number(value)).toFixed(1);
+      state.totalInput = toSafeFloat(state.totalInput + value);
       state.coins[value] += 1;
     },
     resetTotal(state) {

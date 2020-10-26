@@ -5,8 +5,19 @@ export const randomInt = (min, max) => {
   return Math.round(min + Math.random() * (max - min));
 };
 
+export const toSafeFloat = value => {
+  // prevent cases like 0.1 + 0.2 = 3.00...004
+  return Number(value.toFixed(1));
+};
+
 export const findChange = (coinsState, neededChange) => {
-  // sorted entires by face value DESC
+  // Time complexity - techically O(1) since for loop depends
+  // only on constant number of properties of coinsState
+  // Object.entries(coinsState).length === allowedFaceValues.length
+
+  // Space complexity - O(n)
+
+  // sorted entires by face value DESC, to give less coins with higher face values
   const coinsEntries = Object.entries(coinsState).sort((a, b) =>
     a < b ? 1 : -1
   );
@@ -21,7 +32,7 @@ export const findChange = (coinsState, neededChange) => {
     } else {
       // number of coins needed for left to become 0
       const neededCurrentFaceValue = Math.floor(
-        (left / currentFaceValue).toFixed(1)
+        toSafeFloat(left / currentFaceValue)
       );
 
       // number of coins that is actually available
@@ -34,11 +45,12 @@ export const findChange = (coinsState, neededChange) => {
       change[currentFaceValue] = numberOfAvailableCoins;
 
       // substract value added to change from left
-      left = (left - currentFaceValue * numberOfAvailableCoins).toFixed(1);
+      left = toSafeFloat(left - currentFaceValue * numberOfAvailableCoins);
     }
   }
 
   if (left > 0) {
+    // returns null when not able to give change for product
     return null;
   }
 
@@ -52,5 +64,5 @@ export const sumCoins = coins => {
     return acc;
   }, 0);
 
-  return Number(sum.toFixed(1));
+  return toSafeFloat(sum);
 };
